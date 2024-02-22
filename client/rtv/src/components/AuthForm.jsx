@@ -17,7 +17,7 @@ function AuthForm(props) {
 
                     {/* USERNAME INPUT FIELD WITH BULMA STYLING */}
                     <div className="field">
-                        <label className="label">Username</label>
+                        <label className="label">Welcome</label>
                         <div className="control has-icons-left has-icons-right">
                             <input
                                 className="input is-success"
@@ -34,12 +34,12 @@ function AuthForm(props) {
                                 <i className="fas fa-check"></i>
                             </span>
                         </div>
-                        <p className="help is-success">This username is available</p>
+                        {/* <p className="help is-success">This username is available</p> */}
                     </div>
 
                     {/* PASSWORD INPUT FIELD WITH BULMA STYLING */}
                     <div className="field">
-                        <label className="label">Password</label>
+                        {/* <label className="label">Password</label> */}
                         <div className="control has-icons-left has-icons-right">
                             <input
                                 className="input is-success"
@@ -63,9 +63,6 @@ function AuthForm(props) {
                     <div className="field is-grouped">
                         <div className="control">
                             <button className="button is-link">{buttonText}</button>
-                        </div>
-                        <div className="control">
-                            <button className="button is-link is-light">Cancel</button>
                         </div>
                     </div>
                 </form>
