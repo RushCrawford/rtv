@@ -1,40 +1,56 @@
+import { UserContext } from "../context/UserProvider"
 import AuthForm from "./AuthForm"
-import { useState } from "react"
+import { useContext, useState } from "react"
 
-const initInputs = { username: '', password: '' }
+const initInputs = { username: '', password: '' } // initial state object for the input state
 
 function Auth() {
-    const [inputs, setInputs] = useState(initInputs)
-    const [toggle, setToggle] = useState(false)
+    const { signup, login, userState: {errMsg} } = useContext(UserContext) // bring in userState and context functions
+    const [inputs, setInputs] = useState(initInputs) // state variable to hold and control the values of the form inputs
+    const [toggle, setToggle] = useState(false) // toggle to handle login and signup form rendering
 
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setInputs(prevInput => ({
+    const handleChange = (e) => { // handles changes in the input fields
+        const { name, value } = e.target // extract name and value out of event.target
+        setInputs(prevInput => ({ // update input state using previous values and new values
             ...prevInput,
             [name]: value
         }))
-        console.log(inputs)
+    }
+
+    const handleSignup = (e)=> {
+        e.preventDefault()
+        signup(inputs) // passing input values to signup function in UserProvider
+    }
+
+    const handleLogin = (e)=> {
+        e.preventDefault()
+        login(inputs) // passing input values to login function in UserProvider
     }
 
     return (
-        <div className="container">
+        <div className="container"> 
+        {/* TOGGLE FOR SIGNUP AND LOGIN FORMS */}
             {!toggle ?
                 <>
-                    <AuthForm
+                {/* SIGNUP FORM */}
+                    <AuthForm // props passed to AuthForm.jsx
                         inputs={inputs}
                         handleChange={handleChange}
+                        handleSubmit={handleSignup}
                         buttonText='Signup'
-                        // errMsg={errMsg}
-                    />
+                        errMsg={errMsg}
+                        />
                     <p className="help is-warning" onClick={()=>{setToggle(prev => !prev)}}>Already a member?</p>
                 </>
                 :
                 <>
-                    <AuthForm
+                {/* LOGIN FORM */}
+                    <AuthForm // props passed to AuthForm.jsx
                         inputs={inputs}
                         handleChange={handleChange}
+                        handleSubmit={handleLogin}
                         buttonText='Login'
-                        // errMsg={errMsg}
+                        errMsg={errMsg}
                     />
                 <p className="help is-warning" onClick={()=>{setToggle(prev => !prev)}}>Not a member?</p>
                 </>}

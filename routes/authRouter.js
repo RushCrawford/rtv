@@ -38,12 +38,19 @@ authRouter.post('/login', (req,res,next)=> {
             res.status(403)
             return next(new Error('wrong username or password'))
         }
-        if (req.body.password !== user.password) { // if found username, verify passwords match
-            res.status(403)
-            return next(new Error('wrong username or password'))
-        }
-        const token = jwt.sign(user.toObject(), process.env.SECRET) // attatch token
-        res.status(200).send({ token, user }) // send token and new user to frontend
+        
+        user.checkPassword(req.body.password, (err, isMatch)=> {
+            if (err) {
+                res.status(403)
+                return next(err)
+            }
+            if (!isMatch) {
+                res.status(403)
+                return next(err)
+            }
+            const token = jwt.sign(user.toObject(), process.env.SECRET) // attatch token
+            res.status(200).send({ token, user }) // send token and new user to frontend
+        })
     })
 })
 

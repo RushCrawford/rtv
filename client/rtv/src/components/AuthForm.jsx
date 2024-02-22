@@ -1,4 +1,4 @@
-function AuthForm(props) {
+function AuthForm(props) {  
     const {
         buttonText,
         handleChange,
@@ -8,7 +8,8 @@ function AuthForm(props) {
             username,
             password,
         }
-    } = props
+    } = props   // props received from Auth.jsx
+
     return (
         <div className="container">
             <div className="notification is-primary">
@@ -59,7 +60,7 @@ function AuthForm(props) {
                         <p className="help is-danger">{errMsg}</p>            
                     </div>
 
-                    {/* BUTTONS */}
+                    {/* BUTTON */}
                     <div className="field is-grouped">
                         <div className="control">
                             <button className="button is-link">{buttonText}</button>
