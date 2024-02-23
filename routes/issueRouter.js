@@ -3,10 +3,10 @@ const issueRouter = express.Router()
 const Issue = require('../models/issue')
 
 // GET ALL, POST ALL //
-issueRouter.route('/')
+issueRouter.route('/user')
     .get(async (req,res,next)=> {
         try {
-            const allIssues = await Issue.find() // queries db for all documents in Issue collection
+            const allIssues = await Issue.find({ user: req.auth._id }) // queries db for all documents in Issue collection that belong to the user
             res.status(200).send(allIssues)
         } catch (err) {
             res.status(500)

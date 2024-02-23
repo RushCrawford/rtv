@@ -18,13 +18,15 @@ function Auth() {
     }
 
     const handleSignup = (e)=> {
-        e.preventDefault()
+        e.preventDefault() // keeps inputs from refreshing
         signup(inputs) // passing input values to signup function in UserProvider
+        setInputs(initInputs) // reset inputs
     }
 
     const handleLogin = (e)=> {
-        e.preventDefault()
+        e.preventDefault() // keeps inputs from refreshing
         login(inputs) // passing input values to login function in UserProvider
+        setInputs(initInputs) // reset inputs
     }
 
     return (

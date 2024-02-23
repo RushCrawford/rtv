@@ -40,6 +40,18 @@ function userReducer(userState, action) { // state management function that take
                 errMsg: ''
             }
         }
+        case 'post-issue': {
+            return {
+                ...userState,
+                issues: action.payload
+            }
+        }
+        case 'get-user-issues': {
+            return {
+                ...userState,
+                issues: action.payload
+            }
+        }
         default: // a default case to handle actions that dont match the above cases
             return userState
     }
@@ -66,6 +78,7 @@ function UserProvider(props) {
             const { user, token } = res.data
             localStorage.setItem('token', token)
             localStorage.setItem('user', JSON.stringify(user))
+            getUserIssues()
             dispatch({ type: 'received-user-data', newToken: token, newUser: user })
         } catch (err) {
             handleAuthErr(err.response.data.errMsg)
@@ -78,18 +91,37 @@ function UserProvider(props) {
         dispatch({ type: 'logout' })
     }
 
+    const postIssue = async (newIssue)=> {
+        try {
+            const res = await userAxios.post('/api/api/issue/user', newIssue)
+            dispatch({ type: 'post-issue', payload: res.data})
+        } catch (err) {
+            console.log(err.response.data.errMsg)
+        }
+    }
+
+    const getUserIssues = async ()=> {
+        try {
+            const res = await userAxios.get('/api/api/issue/user')
+            dispatch({ type: 'get-user-issues', payload: res.data})
+        } catch (err) {
+            console.log(err.response.data.errMsg)
+        }
+    }
+
     const handleAuthErr = (errMsg)=> {
         dispatch({ type: 'auth-err', payload: errMsg})
     }
 
-console.log(userState)
+console.log(userState.issues)
     return(
         <UserContext.Provider // provides children components access to userState and action functions
             value={{
                 userState,
                 signup,
                 login,
-                logout
+                logout,
+                postIssue
             }}
         >
             {props.children}

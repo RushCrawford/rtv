@@ -1,9 +1,11 @@
 import './App.css'
 import { useContext } from 'react'
-import Auth from './components/Auth'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { UserContext } from './context/UserProvider.jsx'
+import Auth from './components/Auth'
 import Navbar from './components/Navbar.jsx'
+import Public from './components/Public.jsx'
+import Profile from './components/Profile.jsx'
 
 
 function App() {
@@ -11,15 +13,21 @@ function App() {
   
 
   return (
-    <div>
-      {token && <Navbar />}
-      <Routes>
-        <Route 
-          path='/'
-          element={ <Auth /> }
-        />
-      </Routes>
-    </div>
+    <section className='hero is-primary is-fullheight is-fullwidth' >
+      <div>
+        {token && <Navbar />}
+        <Routes>
+          <Route 
+            path='/'
+            element={ token ? <Public /> : <Auth /> }
+          />
+          <Route 
+            path='/profile'
+            element={ token ? <Profile /> : <Auth /> }
+          />
+        </Routes>
+      </div>
+    </section>
   )
 }
 

@@ -41,4 +41,11 @@ userSchema.methods.checkPassword = function(passwordAttempt, callback) {
     })
 }
 
+// METHOD TO REMOVE PASSWORD BEFORE SENDING TO FRONT END //
+userSchema.methods.withoutPassword = function() {
+    const user = this.toObject()
+    delete user.password
+    return user
+}
+
 module.exports = mongoose.model('User', userSchema)
