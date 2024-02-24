@@ -13,6 +13,7 @@ function Profile() {
             },
             issues,
         },
+        logout,
         postIssue,
         upVoteIssue
     } = useContext(UserContext)
@@ -21,7 +22,7 @@ function Profile() {
         setToggle(prev => !prev)
     }
 
-    
+
 
     // const like = (issueId) {
 
@@ -39,18 +40,15 @@ function Profile() {
                         </div>
                         <div id="navbarMenuHeroA" className="navbar-menu">
                             <div className="navbar-end">
-                                <a className="navbar-item is-active">
-                                    Home
-                                </a>
                                 <a className="navbar-item" onClick={toggleForm}>
                                     Post an Issue
                                 </a>
                                 <span className="navbar-item">
-                                    <a className="button is-primary is-inverted">
+                                    <a className="button is-primary is-inverted" onClick={logout} >
                                         <span className="icon">
                                             <i className="fab fa-github"></i>
                                         </span>
-                                        <span>Download</span>
+                                        <span>logout</span>
                                     </a>
                                 </span>
                             </div>

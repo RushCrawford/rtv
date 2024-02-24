@@ -25,6 +25,10 @@ function App() {
             path='/profile'
             element={ token ? <Profile /> : <Auth /> }
           />
+          <Route 
+            path='/public'
+            element={ token ? <Public /> : <Auth /> }
+          />
         </Routes>
       </div>
     </section>

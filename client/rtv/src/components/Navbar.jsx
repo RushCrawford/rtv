@@ -16,11 +16,11 @@ function Navbar() {
           <Link to="/public">Public</Link>
         </li>
       </ul>
-      <div className="buttons" onClick={logout}>
+      {/* <div className="buttons" onClick={logout}>
           <button className="button is-primary">
             Log Out
           </button>
-        </div>
+        </div> */}
     </div>
   )
 }

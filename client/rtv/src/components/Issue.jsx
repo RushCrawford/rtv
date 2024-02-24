@@ -1,8 +1,11 @@
 function Issue(props) {
-    const { title, description, datePosted, _id, username, upVoteIssue } = props // receiving props from IssueList
+    const { title, description, datePosted, _id, username, upVoteIssue, downVoteIssue } = props // receiving props from IssueList
 
     const handleUpVote = ()=> {
         upVoteIssue(_id)
+    }
+    const handleDownVote = ()=> {
+        downVoteIssue(_id)
     }
 
     return (
@@ -27,9 +30,9 @@ function Issue(props) {
         //         <a href="#" className="card-footer-item">Delete</a>
         //     </footer>
         // </div>
-        <article class="media">
-            <div class="media-content">
-                <div class="content">
+        <article className="media">
+            <div className="media-content">
+                <div className="content">
                     <p>
                         <strong>@{username}</strong> · <small>{datePosted}</small>
                         <br />
@@ -37,7 +40,7 @@ function Issue(props) {
                         <br />
                         {description}
                         <br />
-                        <small><a onClick={handleUpVote}>Upvote</a> · <a>Downvote</a> · 3 hrs</small>
+                        <small><a onClick={handleUpVote}>Upvote</a> · <a onClick={handleDownVote}>Downvote</a></small>
                     </p>
                 </div>
             </div>

@@ -54,7 +54,7 @@ function userReducer(userState, action) { // state management function that take
         }
         case 'upvote-request': {
             return { ...userState } // No state change during request
-         } 
+        }
         case 'upvote-success': {
             const { issueId, updatedIssue } = action.payload
             return {
@@ -66,10 +66,23 @@ function userReducer(userState, action) { // state management function that take
         }
         case 'upvote-failure': {
             return { ...userState }; // Handle error gracefully
-    }
+        }
+        case 'downvote-request':
+            return { ...userState }; // No state change during request
+        case 'downvote-success': {
+            const { issueId, updatedIssue } = action.payload;
+            return {
+                ...userState,
+                issues: userState.issues.map((issue) =>
+                    issue._id === issueId ? updatedIssue : issue
+                ),
+            };
+        }
+        case 'downvote-failure':
+            return { ...userState }; // Handle error gracefully
         default: // a default case to handle actions that dont match the above cases
-    return userState
-}
+            return userState
+    }
 }
 
 function UserProvider(props) {
@@ -128,13 +141,28 @@ function UserProvider(props) {
     const upVoteIssue = async (issueId) => {
         dispatch({ type: 'upvote-request' });
         try {
-          const res = await userAxios.put(`/api/api/issue/upvote/${issueId}`);
-          dispatch({ type: 'upvote-success', payload: { issueId, updatedIssue: res.data } });
+            const res = await userAxios.put(`/api/api/issue/upvote/${issueId}`);
+            dispatch({ type: 'upvote-success', payload: { issueId, updatedIssue: res.data } });
         } catch (err) {
-          dispatch({ type: 'upvote-failure' });
-          console.error(err);
+            dispatch({ type: 'upvote-failure' });
+            console.error(err);
         }
-      };
+    }
+
+    const downVoteIssue = async (issueId) => {
+        dispatch({ type: 'downvote-request' });
+        try {
+            const res = await userAxios.put(`/api/api/issue/downvote/${issueId}`);
+            dispatch({
+                type: 'downvote-success',
+                payload: { issueId, updatedIssue: res.data },
+            });
+        } catch (err) {
+            dispatch({ type: 'downvote-failure' });
+            console.error(err);
+        }
+    };
+
 
     const handleAuthErr = (errMsg) => {
         dispatch({ type: 'auth-err', payload: errMsg })
@@ -150,7 +178,8 @@ function UserProvider(props) {
                 logout,
                 postIssue,
                 upVoteIssue,
-                getUserIssues
+                getUserIssues,
+                downVoteIssue
             }}
         >
             {props.children}

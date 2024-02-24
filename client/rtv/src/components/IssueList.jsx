@@ -7,7 +7,7 @@ function IssueList(props) {
 //   const [ issueCard, setIssueCard ] = useState([])
 
   // Context-based approach to access upVoteIssue:
-  const { upVoteIssue } = useContext(UserContext);
+  const { upVoteIssue, downVoteIssue } = useContext(UserContext);
   
   const issueCard = issues?.map((issue) => (
     <Issue
@@ -15,6 +15,7 @@ function IssueList(props) {
       {...issue}
       username={username}
       upVoteIssue={upVoteIssue} // Pass upVoteIssue from context
+      downVoteIssue={downVoteIssue} // Pass upVoteIssue from context
     />
   ));
 
