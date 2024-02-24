@@ -7,6 +7,7 @@ const { expressjwt } = require('express-jwt')
 const PORT = process.env.PORT
 const SECRET = process.env.SECRET
 const URI = process.env.URI
+const PASSWORD = process.env.PASSWORD
 
 // MIDDLEWARE //
 app.use(express.json());
@@ -20,7 +21,7 @@ app.use('/api/issue/comment', require('./routes/commentRouter'))
 
 // DB CONNECTION //
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb+srv://acrawford0221:hFw0XIYfia1TrYJd@rtvcluster.7on5rv6.mongodb.net/', ()=> {
+mongoose.connect(`mongodb+srv://acrawford0221:${PASSWORD}@cluster1.daj8kql.mongodb.net/`, ()=> {
     console.log('Connected to the DB')
 })
 

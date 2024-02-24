@@ -13,13 +13,19 @@ function Profile() {
             },
             issues,
         },
-        postIssue
+        postIssue,
+        upVoteIssue
     } = useContext(UserContext)
 
     const toggleForm = ()=> {
         setToggle(prev => !prev)
     }
-console.log(issues)
+
+    
+
+    // const like = (issueId) {
+
+    // }
     return (
         <section className="hero is-primary is-medium">
             {/* <!-- Hero head: will stick at the top --> */}
@@ -53,11 +59,16 @@ console.log(issues)
                 </nav>
             </div>
 
-
             {/* <!-- Hero content: will be in the middle --> */}
             
             <div className="container">
-                { toggle ? <IssueForm postIssue={postIssue} setToggle={setToggle}/>
+                { toggle ? <div className="box"> 
+                    <IssueForm 
+                        postIssue={postIssue} 
+                        setToggle={setToggle}
+                        upVoteIssue={upVoteIssue}
+                    /> 
+                </div>
                 :
                 <div className="hero-body">
                     <div className="container has-text-centered">

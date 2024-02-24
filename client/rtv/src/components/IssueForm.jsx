@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { UserContext } from '../context/UserProvider'
 
 const initInputs = {
     title: '',
@@ -7,6 +8,7 @@ const initInputs = {
 
 function IssueForm(props) {
     const [inputs, setInputs] = useState(initInputs)
+    const { getUserIssues } = useContext(UserContext)
 
     const { postIssue, setToggle } = props
 
@@ -22,6 +24,7 @@ function IssueForm(props) {
     const handleSubmit = (e) => {
         e.preventDefault()
         postIssue(inputs) // send inputs to context
+        getUserIssues()
         setInputs(initInputs)
         setToggle(prev => !prev)
     }

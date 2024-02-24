@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route 
             path='/'
-            element={ token ? <Public /> : <Auth /> }
+            element={ token ? <Profile /> : <Auth /> }
           />
           <Route 
             path='/profile'

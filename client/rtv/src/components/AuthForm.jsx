@@ -14,7 +14,7 @@ function AuthForm(props) {
         <div className="container">
             <div className="notification is-primary">
 
-                <form onSubmit={handleSubmit}>
+                <form className="box" onSubmit={handleSubmit}>
 
                     {/* USERNAME INPUT FIELD WITH BULMA STYLING */}
                     <div className="field">

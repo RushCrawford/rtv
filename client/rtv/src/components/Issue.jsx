@@ -1,29 +1,47 @@
 function Issue(props) {
-    const { title, description, datePosted, upVote, username } = props
+    const { title, description, datePosted, _id, username, upVoteIssue } = props // receiving props from IssueList
+
+    const handleUpVote = ()=> {
+        upVoteIssue(_id)
+    }
 
     return (
-        <div className="card is-spaced">
+        // <div className="card is-spaced">
 
-            <header className="card-header">
-                <p className="card-header-title">{title}</p>
-            </header>
+        //     <header className="card-header">
+        //         <p className="card-header-title">{title}</p>
+        //     </header>
 
-            <div className="card-content">
-                <div className="content">
-                    {description}
-                    <br />
-                    <a href="#">@{username} - </a>
-                
-                    <time datetime="2016-1-1">{datePosted}</time>
+        //     <div className="card-content">
+        //         <div className="content">
+        //             {description}
+        //             <br />
+        //             <a href="#">@{username} - </a>
+        //             <time datetime="2016-1-1">{datePosted}</time>
+        //         </div>
+        //     </div>
+
+        //     <footer className="card-footer">
+        //         <a href="#" className="card-footer-item">Up Votes </a>
+        //         <a href="#" className="card-footer-item">Edit</a>
+        //         <a href="#" className="card-footer-item">Delete</a>
+        //     </footer>
+        // </div>
+        <article class="media">
+            <div class="media-content">
+                <div class="content">
+                    <p>
+                        <strong>@{username}</strong> · <small>{datePosted}</small>
+                        <br />
+                        <strong>{title}</strong>
+                        <br />
+                        {description}
+                        <br />
+                        <small><a onClick={handleUpVote}>Upvote</a> · <a>Downvote</a> · 3 hrs</small>
+                    </p>
                 </div>
             </div>
-
-            <footer className="card-footer">
-                <a href="#" className="card-footer-item">Up Votes {upVote}</a>
-                <a href="#" className="card-footer-item">Edit</a>
-                <a href="#" className="card-footer-item">Delete</a>
-            </footer>
-        </div>
+        </article>
     )
 }
 

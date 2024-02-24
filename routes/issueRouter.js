@@ -25,6 +25,46 @@ issueRouter.route('/user')
         }
     })
 
+// UP VOTE ROUTE //
+issueRouter.put('/upvote/:issueId', async (req,res,next)=> {
+    try {
+        const updatedIssue = await Issue.findOneAndUpdate(
+            { _id: req.params.issueId},
+            {
+                $addToSet: { likedUsers: req.auth._id },
+                $pull: { dislikedUsers: req.auth._id}
+            },
+            { new:true }
+        )
+        return res.status(200).send(updatedIssue)
+    } catch (err) {
+        if (err) {
+            res.status(500)
+            return next(err)
+        }
+    }
+})
+
+// DOWN VOTE ROUTE //
+issueRouter.put('/downvote/:issueId', async (req,res,next)=> {
+    try {
+        const updatedIssue = await Issue.findOneAndUpdate(
+            { _id: req.params.issueId},
+            {
+                $addToSet: { dislikedUsers: req.auth._id},
+                $pull: { likedUsers: req.auth._id }
+            },
+            { new:true }
+        )
+        return res.status(200).send(updatedIssue)
+    } catch (err) {
+        if (err) {
+            res.status(500)
+            return next(err)
+        }
+    }
+})
+
 // BY ISSUE ID ROUTES, GET, PUT, DELETE // 
 issueRouter.route('/:issueId')
     .get(async (req,res,next)=> {

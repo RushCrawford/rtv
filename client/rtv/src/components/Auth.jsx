@@ -35,6 +35,7 @@ function Auth() {
             {!toggle ?
                 <>
                 {/* SIGNUP FORM */}
+                <div className="container">
                     <AuthForm // props passed to AuthForm.jsx
                         inputs={inputs}
                         handleChange={handleChange}
@@ -42,7 +43,8 @@ function Auth() {
                         buttonText='Signup'
                         errMsg={errMsg}
                         />
-                    <p className="help is-warning" onClick={()=>{setToggle(prev => !prev)}}>Already a member?</p>
+                    <p className="help is-warning is-aligned" onClick={()=>{setToggle(prev => !prev)}}>Already a member?</p>
+                    </div>
                 </>
                 :
                 <>
@@ -54,7 +56,7 @@ function Auth() {
                         buttonText='Login'
                         errMsg={errMsg}
                     />
-                <p className="help is-warning" onClick={()=>{setToggle(prev => !prev)}}>Not a member?</p>
+                <p className="help is-warning is-aligned" onClick={()=>{setToggle(prev => !prev)}}>Not a member?</p>
                 </>}
         </div>
     )
