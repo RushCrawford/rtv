@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react"
+import { createContext, useReducer, useState } from "react"
 import axios from 'axios'
 
 export const UserContext = createContext() // create and export an instance of context 
@@ -14,7 +14,12 @@ const initState = { // creating initial state object
     user: JSON.parse(localStorage.getItem('user')) || {}, // set user to whats in localStorage or an empty object
     token: localStorage.getItem('token') || '', // set token to whats in localStorage or an empty string
     issues: [],
+    // comments: [],
     errMsg: ''
+}
+
+const sortByLikes = (issues)=> {
+    return issues.sort((a,b)=> { a.likedUsers.length - b.likedUsers.length })    
 }
 
 function userReducer(userState, action) { // state management function that takes the current userState and an action object
@@ -37,6 +42,7 @@ function userReducer(userState, action) { // state management function that take
                 user: '',
                 token: '',
                 issues: [],
+                // comments: [],
                 errMsg: ''
             }
         }
@@ -47,9 +53,10 @@ function userReducer(userState, action) { // state management function that take
             }
         }
         case 'get-user-issues': {
+            const sortedIssues = sortByLikes(action.payload)
             return {
                 ...userState,
-                issues: action.payload
+                issues: sortedIssues
             }
         }
         case 'upvote-request': {
@@ -80,6 +87,12 @@ function userReducer(userState, action) { // state management function that take
         }
         case 'downvote-failure':
             return { ...userState }; // Handle error gracefully
+        case 'post-comment': {
+            return {
+                ...userState,
+                comments: action.payload
+            }
+        }
         default: // a default case to handle actions that dont match the above cases
             return userState
     }
@@ -87,6 +100,9 @@ function userReducer(userState, action) { // state management function that take
 
 function UserProvider(props) {
     const [userState, dispatch] = useReducer(userReducer, initState) // holds current state of user data, dispatch function sends actions to reducer
+    const [ allComments, setAllComments ]= useState([])
+    const [ allIssues, setAllIssues ]= useState([])
+
 
     const signup = async (credentials) => { // pass in user data as credentials
         try {
@@ -106,7 +122,6 @@ function UserProvider(props) {
             const { user, token } = res.data
             localStorage.setItem('token', token)
             localStorage.setItem('user', JSON.stringify(user))
-            getUserIssues()
             dispatch({ type: 'received-user-data', newToken: token, newUser: user })
         } catch (err) {
             handleAuthErr(err.response.data.errMsg)
@@ -129,10 +144,39 @@ function UserProvider(props) {
         }
     }
 
+    const postComment = async (issueId, user, text) => {
+        console.log(user,text)
+        try {
+            const res = await userAxios.post(`/api/api/comment/${issueId}`, user, text)
+            console.log(res.data)
+            setAllComments(prev => [...prev, res.data])
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     const getUserIssues = async () => {
         try {
             const res = await userAxios.get('/api/api/issue/user')
             dispatch({ type: 'get-user-issues', payload: res.data })
+        } catch (err) {
+            console.log(err.response.data.errMsg)
+        }
+    }
+
+    const getAllIssues = async () => {
+        try {
+            const res = await userAxios.get('/api/api/issue')
+            setAllIssues(res.data)
+        } catch (err) {
+            console.log(err.response.data.errMsg)
+        }
+    }
+
+    const getComments = async () => {
+        try {
+            const res = await userAxios.get('/api/api/comment')
+            setAllComments(res.data)
         } catch (err) {
             console.log(err.response.data.errMsg)
         }
@@ -143,6 +187,7 @@ function UserProvider(props) {
         try {
             const res = await userAxios.put(`/api/api/issue/upvote/${issueId}`);
             dispatch({ type: 'upvote-success', payload: { issueId, updatedIssue: res.data } });
+            getUserIssues()
         } catch (err) {
             dispatch({ type: 'upvote-failure' });
             console.error(err);
@@ -168,7 +213,6 @@ function UserProvider(props) {
         dispatch({ type: 'auth-err', payload: errMsg })
     }
 
-    console.log(userState.issues)
     return (
         <UserContext.Provider // provides children components access to userState and action functions
             value={{
@@ -179,7 +223,12 @@ function UserProvider(props) {
                 postIssue,
                 upVoteIssue,
                 getUserIssues,
-                downVoteIssue
+                downVoteIssue,
+                postComment,
+                getAllIssues,
+                allIssues,
+                getComments,
+                allComments
             }}
         >
             {props.children}

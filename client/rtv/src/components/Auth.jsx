@@ -1,6 +1,8 @@
 import { UserContext } from "../context/UserProvider"
 import AuthForm from "./AuthForm"
 import { useContext, useState } from "react"
+import { Link } from 'react-router-dom'
+
 
 const initInputs = { username: '', password: '' } // initial state object for the input state
 
@@ -31,6 +33,33 @@ function Auth() {
 
     return (
         <div className="container"> 
+        <div className="hero-head">
+            <nav className="navbar">
+                <div className="container">
+                    <div className="navbar-brand">
+                        <a className="navbar-item">
+                            <img src="https://bulma.io/images/bulma-type-white.png" alt="Logo" />
+                        </a>
+                    </div>
+                    <div id="navbarMenuHeroA" className="navbar-menu">
+                        <div className="navbar-end">
+                            <span className="navbar-item">
+                            <div className="tabs is-left is-medium">
+      <ul>
+        <li className='is-active'>
+          <Link to="/profile">Profile</Link>
+        </li>
+        <li className='is-active'>
+          <Link to="/public">Public</Link>
+        </li>
+      </ul>
+    </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
         {/* TOGGLE FOR SIGNUP AND LOGIN FORMS */}
             {!toggle ?
                 <>

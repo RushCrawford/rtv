@@ -25,6 +25,16 @@ issueRouter.route('/user')
         }
     })
 
+issueRouter.get('/', async (req,res,next)=> {
+    try {
+        const allIssues = await Issue.find() // queries db for all documents in Issue collection 
+        res.status(200).send(allIssues)
+    } catch (err) {
+        res.status(500)
+        return next(err)
+    }
+})
+
 // UP VOTE ROUTE //
 issueRouter.put('/upvote/:issueId', async (req,res,next)=> {
     try {

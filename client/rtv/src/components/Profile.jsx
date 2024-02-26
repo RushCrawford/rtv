@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../context/UserProvider"
 import IssueForm from "./IssueForm"
 import Issue from "./Issue"
@@ -9,24 +9,29 @@ function Profile() {
     const {
         userState: {
             user: {
-                username
+                username,
+                _id
             },
             issues,
         },
         logout,
         postIssue,
-        upVoteIssue
+        upVoteIssue,
+        getUserIssues,
+        getComments
     } = useContext(UserContext)
 
     const toggleForm = ()=> {
         setToggle(prev => !prev)
     }
+    
+    useEffect(()=> {
+        getUserIssues()
+        getComments()
+    },[])
 
+    issues.sort((a,b)=> b.likedUsers.length - a.likedUsers.length )
 
-
-    // const like = (issueId) {
-
-    // }
     return (
         <section className="hero is-primary is-medium">
             {/* <!-- Hero head: will stick at the top --> */}
@@ -76,7 +81,7 @@ function Profile() {
                         <p className="subtitle">
                             Your Issues
                         </p>
-                        <IssueList issues={issues} username={username}/>
+                        <IssueList issues={issues} username={username} userId={_id}/>
                     </div>
                 </div>}
             </div>

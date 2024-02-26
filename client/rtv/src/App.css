@@ -18,6 +18,10 @@
   margin-left: 25px;
 }
 
+.comment-margin {
+  margin-left: 85px;
+}
+
 /* #root {
   max-width: 1280px;
   margin: 0 auto;

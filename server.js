@@ -17,7 +17,7 @@ app.use(morgan('dev'));
 app.use('/auth', require('./routes/authRouter'))
 app.use('/api', expressjwt({ secret: SECRET, algorithms: ['HS256'] }))
 app.use('/api/issue', require('./routes/issueRouter'))
-app.use('/api/issue/comment', require('./routes/commentRouter'))
+app.use('/api/comment', require('./routes/commentRouter'))
 
 // DB CONNECTION //
 mongoose.set('strictQuery', true);

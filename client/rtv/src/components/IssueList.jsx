@@ -3,11 +3,10 @@ import { useContext, useState } from "react";
 import { UserContext } from "../context/UserProvider";
 
 function IssueList(props) {
-  const { issues, username } = props;
-//   const [ issueCard, setIssueCard ] = useState([])
+  const { issues, username, userId } = props;
 
   // Context-based approach to access upVoteIssue:
-  const { upVoteIssue, downVoteIssue } = useContext(UserContext);
+  const { upVoteIssue, downVoteIssue, postComment } = useContext(UserContext);
   
   const issueCard = issues?.map((issue) => (
     <Issue
@@ -15,7 +14,9 @@ function IssueList(props) {
       {...issue}
       username={username}
       upVoteIssue={upVoteIssue} // Pass upVoteIssue from context
-      downVoteIssue={downVoteIssue} // Pass upVoteIssue from context
+      downVoteIssue={downVoteIssue} // Pass downVoteIssue from context
+      postComment={postComment} // passed from context
+      userId={userId}
     />
   ));
 
@@ -27,26 +28,3 @@ function IssueList(props) {
 }
 
 export default IssueList;
-
-
-// import Issue from "./Issue"
-
-// function IssueList(props) {
-//     const { issues, username,upVoteIssue } = props
-    
-//     const issueCard = issues.map(issue => 
-//         <Issue 
-//             key={issue._id} 
-//             {...issue} 
-//             username={username} 
-//             upVoteIssue={upVoteIssue} 
-//         />)
-
-//     return (
-//         <div>
-//             {issueCard}
-//         </div>
-//     )
-// }
-
-// export default IssueList

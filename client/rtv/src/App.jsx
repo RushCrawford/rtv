@@ -1,5 +1,5 @@
 import './App.css'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { UserContext } from './context/UserProvider.jsx'
 import Auth from './components/Auth'
@@ -9,8 +9,11 @@ import Profile from './components/Profile.jsx'
 
 
 function App() {
-  const { userState: {token} } = useContext(UserContext)
+  const { userState: {token}, getComments } = useContext(UserContext)
   
+  // useEffect(()=> {
+  //   getComments()
+  // },[])
 
   return (
     <section className='hero is-primary is-fullheight is-fullwidth' >
@@ -27,7 +30,7 @@ function App() {
           />
           <Route 
             path='/public'
-            element={ token ? <Public /> : <Auth /> }
+            element={ <Public /> }
           />
         </Routes>
       </div>
